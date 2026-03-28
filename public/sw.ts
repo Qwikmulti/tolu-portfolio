@@ -35,10 +35,12 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url.includes("/api/")) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
+    (async () => {
+      const cached = await caches.match(event.request);
       if (cached) return cached;
 
-      return fetch(event.request).then((response) => {
+      try {
+        const response = await fetch(event.request);
         // Don't cache non-successful responses
         if (!response || response.status !== 200 || response.type !== "basic") {
           return response;
@@ -50,16 +52,15 @@ self.addEventListener("fetch", (event) => {
         });
 
         return response;
-      }).catch(() => {
+      } catch {
         // Return offline page for navigation requests
         if (event.request.mode === "navigate") {
-          return caches.match("/").then((offlineResponse) => {
-            return offlineResponse || new Response("Offline");
-          });
+          const offlineResponse = await caches.match("/");
+          return offlineResponse ?? new Response("Offline");
         }
-        throw new Error("Offline");
-      });
-    })
+        return new Response("Offline", { status: 503 });
+      }
+    })()
   );
 });
 

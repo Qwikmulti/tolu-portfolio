@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { subscribeSchema } from "@/lib/validations";
 import { sendEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rateLimit";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for") || "anonymous";
@@ -21,6 +22,13 @@ export async function POST(request: Request) {
     }
 
     const { firstName, email } = result.data;
+
+    try {
+      const supabase = await createSupabaseServerClient();
+      await supabase.from("subscribers").insert([{ email, source: "newsletter" }]);
+    } catch (dbError) {
+      console.error("Supabase insert error:", dbError);
+    }
 
     await sendEmail({
       to: email,

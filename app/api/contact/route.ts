@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations";
 import { sendContactEmail, sendEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rateLimit";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for") || "anonymous";
@@ -21,6 +22,17 @@ export async function POST(request: Request) {
     }
 
     const { fullName, email, subject, message } = result.data;
+
+    try {
+      const supabase = await createSupabaseServerClient();
+      await supabase.from("messages").insert([{
+        name: fullName,
+        email,
+        message,
+      }]);
+    } catch (dbError) {
+      console.error("Supabase insert error:", dbError);
+    }
 
     await sendContactEmail({ fullName, email, subject, message });
 

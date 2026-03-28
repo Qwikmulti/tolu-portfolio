@@ -52,7 +52,7 @@ export async function sendContactEmail(data: {
 export async function sendWelcomeEmail(data: { name: string; email: string }) {
   return sendEmail({
     to: data.email,
-    subject: "Welcome to the Practical BA Community! 🎉",
+    subject: "Welcome to the Practical BA Community!",
     html: `
       <h2>Welcome to the Practical BA Community, ${data.name}!</h2>
       <p>We're thrilled to have you here. You now have access to:</p>
@@ -67,14 +67,16 @@ export async function sendWelcomeEmail(data: { name: string; email: string }) {
   });
 }
 
-export async function sendDownloadEmail(data: { name: string; email: string }) {
+export async function sendDownloadEmail(data: { name: string; email: string; downloadUrl?: string | null }) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://practicalbacommunity.com";
+  const downloadLink = data.downloadUrl ? `${siteUrl}${data.downloadUrl}` : `${siteUrl}/guide.pdf`;
   return sendEmail({
     to: data.email,
     subject: "Your Free BA Starter Guide is Here! 🎁",
     html: `
       <h2>Your Free BA Starter Guide, ${data.name}!</h2>
       <p>Thank you for signing up! Click the link below to download your free guide:</p>
-      <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/guide.pdf">Download Your BA Starter Guide</a></p>
+      <p><a href="${downloadLink}">Download Your BA Starter Guide</a></p>
       <p>Happy learning!</p>
       <p>— Tolu</p>
     `,

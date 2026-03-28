@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { joinCommunitySchema } from "@/lib/validations";
 import { sendWelcomeEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rateLimit";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for") || "anonymous";
@@ -21,6 +22,19 @@ export async function POST(request: Request) {
     }
 
     const { firstName, email } = result.data;
+
+    try {
+      const supabase = await createSupabaseServerClient();
+      await supabase.from("community_members").insert([{
+        first_name: firstName,
+        last_name: result.data.lastName,
+        email,
+        role: result.data.currentRole,
+        challenge: result.data.challenge || null,
+      }]);
+    } catch (dbError) {
+      console.error("Supabase insert error:", dbError);
+    }
 
     await sendWelcomeEmail({ name: firstName, email });
 
