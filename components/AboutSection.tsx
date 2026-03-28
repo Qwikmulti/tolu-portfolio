@@ -1,23 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CareerTimeline } from "./CareerTimeline";
+// import { CareerTimeline } from "./CareerTimeline";
 
-const VALUES = [
-  { title: "Clarity", desc: "Complex BA concepts explained simply." },
-  { title: "Practicality", desc: "Real-world skills, not just theory." },
-  { title: "Community", desc: "Learn and grow together." },
-];
+// const VALUES = [
+//   { title: "Clarity", desc: "Complex BA concepts explained simply." },
+//   { title: "Practicality", desc: "Real-world skills, not just theory." },
+//   { title: "Community", desc: "Learn and grow together." },
+// ];
 
-const FUN_FACTS = [
-  { emoji: "🎹", label: "Piano" },
-  { emoji: "🥁", label: "Drums" },
-  { emoji: "📊", label: "6yrs BA" },
-  { emoji: "✍️", label: "Author" },
-  { emoji: "🎓", label: "Educator" },
-];
+// const FUN_FACTS = [
+//   { emoji: "🎹", label: "Piano" },
+//   { emoji: "🥁", label: "Drums" },
+//   { emoji: "📊", label: "6yrs BA" },
+//   { emoji: "✍️", label: "Author" },
+//   { emoji: "🎓", label: "Educator" },
+// ];
 
 export function AboutSection() {
   return (
@@ -86,7 +85,7 @@ export function AboutSection() {
             </div>
 
             {/* Fun facts */}
-            <div className="flex flex-wrap gap-3 mt-8">
+            {/* <div className="flex flex-wrap gap-3 mt-8">
               {FUN_FACTS.map((fact) => (
                 <div
                   key={fact.label}
@@ -96,23 +95,23 @@ export function AboutSection() {
                   <span className="text-xs font-medium text-charcoal/70">{fact.label}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
 
             {/* Value cards */}
-            <div className="grid grid-cols-3 gap-4 mt-10">
+            {/* <div className="grid grid-cols-3 gap-4 mt-10">
               {VALUES.map((v, i) => (
                 <div key={v.title} className="bg-gradient-to-br from-navy/5 to-transparent rounded-xl p-4 border border-charcoal/5">
                   <h4 className="font-cormorant text-lg font-bold text-navy">{v.title}</h4>
                   <p className="text-xs text-charcoal/50 mt-1">{v.desc}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
 
             {/* Timeline */}
-            <div className="mt-12">
-              <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Career Journey</h3>
-              <CareerTimeline />
-            </div>
+            {/* <div className="mt-12"> */}
+              {/* <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Career Journey</h3> */}
+              {/* <CareerTimeline /> */}
+            {/* </div> */}
           </motion.div>
         </div>
       </div>
