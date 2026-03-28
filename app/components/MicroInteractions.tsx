@@ -6,7 +6,7 @@ export function MicroInteractions() {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const button = target.closest("button, a");
+      const button = target.closest("button, a") as HTMLElement;
       if (!button) return;
 
       const rect = button.getBoundingClientRect();

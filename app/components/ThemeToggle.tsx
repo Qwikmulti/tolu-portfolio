@@ -8,9 +8,11 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-    if (saved) setTheme(saved);
+    if (saved) {
+      setTheme(saved);
+    }
+    setMounted(true);
   }, []);
 
   const toggle = () => {
