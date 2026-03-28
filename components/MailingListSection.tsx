@@ -15,6 +15,15 @@ export function MailingListSection() {
   });
 
   const onSubmit = async (data: SubscribeData) => {
+    // Honeypot check - bot detected if field is filled
+    const honeypotField = document.querySelector("input[name='website']") as HTMLInputElement;
+    if (honeypotField?.value) {
+      // Bot detected - fake success
+      setSubmitted(true);
+      reset();
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/subscribe", {
@@ -79,6 +88,15 @@ export function MailingListSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
+            {/* Honeypot - hidden from users, bots will fill it */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="absolute left-[-9999px]"
+              onChange={() => {}}
+            />
             <div className="flex-1 text-left">
               <input
                 {...register("firstName")}
@@ -103,6 +121,7 @@ export function MailingListSection() {
             <button
               type="submit"
               disabled={loading}
+              data-track="subscribe_submit"
               className="bg-gold hover:bg-gold/90 text-navy font-semibold px-8 py-4 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shrink-0"
             >
               {loading ? (

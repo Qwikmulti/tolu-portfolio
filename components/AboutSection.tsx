@@ -18,6 +18,8 @@ import Image from "next/image";
 //   { emoji: "🎓", label: "Educator" },
 // ];
 
+const profileBlurDataURL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAQUAAAAAAAAAAAAAAQIDBAAFESEGEhMxQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwC3xPj1ZcLTNlT7hIZlNyVNIaacShKEJACQQQe5J9YxgBjOUZfk7bU1X//2Q==";
+
 export function AboutSection() {
   return (
     <section id="about" className="py-28 bg-white relative overflow-hidden">
@@ -43,6 +45,8 @@ export function AboutSection() {
                   className="object-cover"
                   width={320}
                   height={320}
+                  placeholder="blur"
+                  blurDataURL={profileBlurDataURL}
                 />
               </div>
             </div>

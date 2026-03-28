@@ -21,3 +21,34 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Cormorant Garamond", serif;
 }
+
+/* Dark mode support */
+.dark {
+  --color-bg: #0a0e1a;
+  --color-text: #e2e8f0;
+}
+
+.dark body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Dark mode background overrides */
+.dark .bg-soft-white {
+  background-color: #0f172a;
+}
+.dark .bg-white {
+  background-color: #1e293b;
+}
+.dark .text-navy {
+  color: #f8fafc;
+}
+.dark .text-charcoal {
+  color: #e2e8f0;
+}
+.dark .bg-navy {
+  background-color: #020617;
+}
+.dark .text-white {
+  color: #f8fafc;
+}

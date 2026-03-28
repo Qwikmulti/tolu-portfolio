@@ -1,15 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS, BRAND } from "@/lib/constants";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 
 interface NavbarProps {
   onOpenDownloadModal: () => void;
 }
 
 export function Navbar({ onOpenDownloadModal }: NavbarProps) {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
@@ -37,6 +40,12 @@ export function Navbar({ onOpenDownloadModal }: NavbarProps) {
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
+    // Handle internal routes like /blog
+    if (href.startsWith("/")) {
+      router.push(href);
+      return;
+    }
+    // Handle section anchors like #about
     const id = href.replace("#", "");
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -87,6 +96,7 @@ export function Navbar({ onOpenDownloadModal }: NavbarProps) {
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className="flex items-center gap-3"
               >
+                <ThemeToggle />
                 <Button
                   variant="outline"
                   className="border-white/20 text-white hover:bg-white/10 hover:text-white text-sm rounded-full px-5"

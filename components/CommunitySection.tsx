@@ -29,6 +29,15 @@ export function CommunitySection() {
   });
 
   const onSubmit = async (data: JoinCommunityData) => {
+    // Honeypot check - bot detected if field is filled
+    const honeypotField = document.querySelector("input[name='website']") as HTMLInputElement;
+    if (honeypotField?.value) {
+      // Bot detected - fake success
+      setSuccess(true);
+      reset();
+      return;
+    }
+
     try {
       const res = await fetch("/api/join-community", {
         method: "POST",
@@ -127,6 +136,15 @@ export function CommunitySection() {
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                  {/* Honeypot - hidden from users, bots will fill it */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="absolute left-[-9999px]"
+                    onChange={() => {}}
+                  />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">First Name</label>
@@ -177,6 +195,7 @@ export function CommunitySection() {
                   </div>
                   <button
                     type="submit"
+                    data-track="join_community_click"
                     className="w-full bg-electric hover:bg-electric/90 text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
                   >
                     Join the Community

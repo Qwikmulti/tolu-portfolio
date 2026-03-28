@@ -1,0 +1,35 @@
+{
+  "name": "Practical BA with Tolu",
+  "short_name": "Practical BA",
+  "description": "Simplifying Business Analysis. Empowering Careers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F1F3D",
+  "theme_color": "#0F1F3D",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "education"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Join Community",
+      "url": "/#community",
+      "description": "Join the Practical BA Community"
+    },
+    {
+      "name": "Download Free Guide",
+      "url": "/#resources",
+      "description": "Get the free BA starter guide"
+    }
+  ]
+}

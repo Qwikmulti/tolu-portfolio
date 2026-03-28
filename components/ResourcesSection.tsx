@@ -38,6 +38,14 @@ export function ResourcesSection() {
   });
 
   const onSubmit = async (data: DownloadGuideData) => {
+    // Honeypot check - bot detected if field is filled
+    const honeypotField = document.querySelector("input[name='website']") as HTMLInputElement;
+    if (honeypotField?.value) {
+      // Bot detected - fake success
+      setSubmitted(true);
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/download-guide", {
@@ -120,6 +128,15 @@ export function ResourcesSection() {
               {/* Right form */}
               {!submitted ? (
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl p-8 shadow-xl">
+                  {/* Honeypot - hidden from users, bots will fill it */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="absolute left-[-9999px]"
+                    onChange={() => {}}
+                  />
                   <h4 className="font-cormorant text-xl font-bold text-navy mb-6">Get Instant Access</h4>
                   <div className="space-y-4">
                     <div>
@@ -144,6 +161,7 @@ export function ResourcesSection() {
                     <button
                       type="submit"
                       disabled={loading}
+                      data-track="download_guide_click"
                       className="w-full bg-navy hover:bg-navy/90 text-white font-semibold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {loading ? (

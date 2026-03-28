@@ -31,6 +31,15 @@ export function ContactSection() {
   });
 
   const onSubmit = async (data: ContactData) => {
+    // Honeypot check - bot detected if field is filled
+    const honeypotField = document.querySelector("input[name='website']") as HTMLInputElement;
+    if (honeypotField?.value) {
+      // Bot detected - fake success
+      setSubmitted(true);
+      reset();
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/contact", {
@@ -121,6 +130,15 @@ export function ContactSection() {
               <>
                 <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Send a Message</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                  {/* Honeypot - hidden from users, bots will fill it */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="absolute left-[-9999px]"
+                    onChange={() => {}}
+                  />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">Full Name</label>
@@ -167,6 +185,7 @@ export function ContactSection() {
                     type="submit"
                     isLoading={loading}
                     loadingText="Sending..."
+                    data-track="contact_submit"
                     className="w-full bg-navy hover:bg-navy/90 text-white font-semibold"
                   >
                     <Send className="w-4 h-4 mr-2" />
