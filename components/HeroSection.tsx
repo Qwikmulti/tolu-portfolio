@@ -41,7 +41,7 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
           {/* Left: Text */}
           <div className="space-y-10">
             {/* Eyebrow */}
-            <motion.div
+            {/* <motion.div
               className="inline-flex items-center gap-2"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -49,7 +49,7 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
             >
               <span className="w-8 h-px bg-gold" />
               <span className="text-gold text-sm font-medium tracking-[0.2em] uppercase">Senior Business Analyst · 6+ Years</span>
-            </motion.div>
+            </motion.div> */}
 
             {/* Animated headline */}
             <div>
@@ -142,7 +142,7 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-electric to-gold opacity-20 blur-3xl" />
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/10 shadow-2xl">
                   <Image
-                    src="/tolu-profile.jpg"
+                    src="/tolu1.jpg"
                     alt="Tolulope - Practical BA"
                     fill
                     className="object-cover"

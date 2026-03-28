@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find app:*)",
+      "Bash(\"C:\\\\Users\\\\Damilola\\\\Desktop\\\\qwik-services\\\\tolu-portfolio\\\\.env.local.example\":*)"
+    ]
+  }
+}

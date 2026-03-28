@@ -36,7 +36,7 @@ export async function sendContactEmail(data: {
   message: string;
 }) {
   return sendEmail({
-    to: process.env.CONTACT_EMAIL || "Tolulope@practicalbacommunity.com",
+    to: process.env.CONTACT_EMAIL || "Tolulopesaliu180@gmail.com",
     subject: `[Contact Form] ${data.subject} from ${data.fullName}`,
     html: `
       <h2>New Contact Form Submission</h2>
