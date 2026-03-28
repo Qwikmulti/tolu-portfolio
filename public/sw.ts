@@ -53,8 +53,11 @@ self.addEventListener("fetch", (event) => {
       }).catch(() => {
         // Return offline page for navigation requests
         if (event.request.mode === "navigate") {
-          return caches.match("/");
+          return caches.match("/").then((offlineResponse) => {
+            return offlineResponse || new Response("Offline");
+          });
         }
+        throw new Error("Offline");
       });
     })
   );
