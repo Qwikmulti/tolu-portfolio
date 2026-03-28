@@ -33,7 +33,7 @@ export function ResourcesSection() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<DownloadGuideData>({
+  const { register, handleSubmit, formState: { errors } } = useForm<DownloadGuideData>({
     resolver: zodResolver(downloadGuideSchema),
   });
 
@@ -160,7 +160,7 @@ export function ResourcesSection() {
               ) : (
                 <div className="bg-white rounded-2xl p-8 shadow-xl text-center">
                   <div className="text-5xl mb-4">🎉</div>
-                  <h4 className="font-cormorant text-2xl font-bold text-navy mb-2">You're All Set!</h4>
+                  <h4 className="font-cormorant text-2xl font-bold text-navy mb-2">You&apos;re All Set!</h4>
                   <p className="text-charcoal/60 text-sm">Check your inbox for the download link.</p>
                 </div>
               )}

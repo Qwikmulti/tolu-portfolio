@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { JoinCommunityData, joinCommunitySchema } from "@/lib/validations";
-import { Users, MessageCircle, TrendingUp, BookOpen, Heart, Zap, Send, CheckCircle } from "lucide-react";
+import { Users, MessageCircle, TrendingUp, BookOpen, Heart, Zap, Send } from "lucide-react";
 import { SOCIAL_LINKS } from "@/lib/constants";
 
 const BENEFITS = [
@@ -116,14 +116,14 @@ export function CommunitySection() {
                 className="text-center py-8"
               >
                 <div className="text-6xl mb-6">🎉</div>
-                <h3 className="font-cormorant text-3xl font-bold text-navy mb-3">You're In!</h3>
+                <h3 className="font-cormorant text-3xl font-bold text-navy mb-3">You&apos;re In!</h3>
                 <p className="text-charcoal/50">Welcome to the community, BA! Check your inbox for next steps.</p>
               </motion.div>
             ) : (
               <>
                 <div className="text-center mb-8">
                   <h3 className="font-cormorant text-3xl font-bold text-navy mb-2">Become a Member</h3>
-                  <p className="text-charcoal/50 text-sm">It's completely free to join</p>
+                  <p className="text-charcoal/50 text-sm">It&apos;s completely free to join</p>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

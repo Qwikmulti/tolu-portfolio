@@ -70,7 +70,7 @@ export function DownloadModal({ open, onOpenChange }: DownloadModalProps) {
         ) : (
           <>
             <p className="text-sm text-charcoal/50 mb-4">
-              What's inside the guide:
+              What&apos;s inside the guide:
             </p>
             <ul className="text-sm space-y-2.5 mb-6">
               {[

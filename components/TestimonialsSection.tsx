@@ -73,7 +73,7 @@ export function TestimonialsSection() {
                 </div>
 
                 <p className="text-charcoal/65 text-sm leading-relaxed mb-6 flex-1 italic">
-                  "{t.text}"
+                  &quot;{t.text}&quot;
                 </p>
 
                 <div className="flex items-center gap-3 pt-4 border-t border-charcoal/5">

@@ -65,10 +65,10 @@ export function ContactSection() {
         >
           <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">Get in Touch</span>
           <h2 className="font-cormorant text-5xl sm:text-6xl font-bold text-navy mt-3">
-            Let's Connect
+            Let&apos;s Connect
           </h2>
           <p className="text-charcoal/50 mt-4 max-w-xl mx-auto">
-            Have a question, collaboration idea, or just want to say hello? I'd love to hear from you.
+            Have a question, collaboration idea, or just want to say hello? I&apos;d love to hear from you.
           </p>
         </motion.div>
 
@@ -115,7 +115,7 @@ export function ContactSection() {
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
                 <h3 className="font-cormorant text-2xl font-bold text-navy mb-2">Message Sent!</h3>
-                <p className="text-charcoal/50 text-sm">I'll get back to you within 48 hours.</p>
+                <p className="text-charcoal/50 text-sm">I&apos;ll get back to you within 48 hours.</p>
               </motion.div>
             ) : (
               <>
