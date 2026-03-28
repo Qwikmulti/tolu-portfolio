@@ -5,36 +5,51 @@ import Link from "next/link";
 import { Users, Mail, UserPlus, FileText, ArrowRight } from "lucide-react";
 
 async function getStats(supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>) {
-  const [subscribersCount, messagesCount, communityCount, blogCount] = await Promise.all([
-    supabase.from("subscribers").select("*", { count: "exact", head: true }),
-    supabase.from("messages").select("*", { count: "exact", head: true }),
-    supabase.from("community_members").select("*", { count: "exact", head: true }),
-    supabase.from("blog_articles").select("*", { count: "exact", head: true }),
-  ]);
+  try {
+    const [subscribersCount, messagesCount, communityCount, blogCount] = await Promise.all([
+      supabase.from("subscribers").select("*", { count: "exact", head: true }),
+      supabase.from("messages").select("*", { count: "exact", head: true }),
+      supabase.from("community_members").select("*", { count: "exact", head: true }),
+      supabase.from("blog_articles").select("*", { count: "exact", head: true }),
+    ]);
 
-  const [recentMessages, recentCommunity] = await Promise.all([
-    supabase.from("messages").select("*").order("created_at", { ascending: false }).limit(5),
-    supabase.from("community_members").select("*").order("created_at", { ascending: false }).limit(5),
-  ]);
+    const [recentMessages, recentCommunity] = await Promise.all([
+      supabase.from("messages").select("*").order("created_at", { ascending: false }).limit(5),
+      supabase.from("community_members").select("*").order("created_at", { ascending: false }).limit(5),
+    ]);
 
-  return {
-    totalSubscribers: subscribersCount.count ?? 0,
-    totalMessages: messagesCount.count ?? 0,
-    totalCommunity: communityCount.count ?? 0,
-    totalBlog: blogCount.count ?? 0,
-    recentMessages: recentMessages.data ?? [],
-    recentCommunity: recentCommunity.data ?? [],
-  };
+    return {
+      totalSubscribers: subscribersCount.count ?? 0,
+      totalMessages: messagesCount.count ?? 0,
+      totalCommunity: communityCount.count ?? 0,
+      totalBlog: blogCount.count ?? 0,
+      recentMessages: recentMessages.data ?? [],
+      recentCommunity: recentCommunity.data ?? [],
+    };
+  } catch {
+    return {
+      totalSubscribers: 0, totalMessages: 0, totalCommunity: 0, totalBlog: 0,
+      recentMessages: [], recentCommunity: [],
+    };
+  }
 }
 
 export default async function DashboardPage() {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/admin/login");
+  let user: { email?: string } | null = null;
+  let stats: Awaited<ReturnType<typeof getStats>> = { totalSubscribers: 0, totalMessages: 0, totalCommunity: 0, totalBlog: 0, recentMessages: [] as any[], recentCommunity: [] as any[] };
 
-  const stats = await getStats(supabase);
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+    if (user) {
+      stats = await getStats(supabase);
+    }
+  } catch (err) {
+    console.error("Dashboard error:", err);
+  }
+
+  if (!user) redirect("/admin/login");
 
   const statCards = [
     { label: "Subscribers", value: stats.totalSubscribers, icon: Users, href: "/admin/subscribers", color: "electric" },

@@ -4,12 +4,17 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { FileText, Clock, Calendar } from "lucide-react";
 
 export default async function BlogPage() {
-  const supabase = await createSupabaseServerClient();
-  const client = await supabase;
-  const { data: articles } = await client
-    .from("blog_articles")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let articles: any[] = [];
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("blog_articles")
+      .select("*")
+      .order("created_at", { ascending: false });
+    articles = data ?? [];
+  } catch (err) {
+    console.error("Blog page error:", err);
+  }
 
   return (
     <div className="min-h-screen bg-soft-white py-24">

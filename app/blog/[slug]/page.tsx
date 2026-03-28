@@ -6,14 +6,18 @@ import React from "react";
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = React.use(params);
-  const supabase = await createSupabaseServerClient();
-  const client = await supabase;
-
-  const { data: article } = await client
-    .from("blog_articles")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  let article: any = null;
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("blog_articles")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+    article = data;
+  } catch (err) {
+    console.error("Article page error:", err);
+  }
 
   if (!article) notFound();
 

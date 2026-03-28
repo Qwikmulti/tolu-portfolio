@@ -1,8 +1,43 @@
-import { type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/middleware";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function proxy(request: NextRequest) {
-  return await updateSession(request);
+  try {
+    const { createServerClient } = await import("@supabase/ssr");
+    const NextResponse = (await import("next/server")).NextResponse;
+
+    let supabaseResponse = NextResponse.next({ request });
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey || supabaseUrl === "undefined" || supabaseAnonKey === "undefined") {
+      return supabaseResponse;
+    }
+
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          supabaseResponse = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
+      },
+    });
+
+    await supabase.auth.getUser();
+    return supabaseResponse;
+  } catch (err) {
+    // If anything fails in the middleware (env vars, Edge compat, etc.), just continue
+    console.error("Middleware error:", err);
+    return NextResponse.next({ request });
+  }
 }
 
 export const config = {

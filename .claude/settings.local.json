@@ -4,7 +4,8 @@
       "Bash(find app:*)",
       "Bash(\"C:\\\\Users\\\\Damilola\\\\Desktop\\\\qwik-services\\\\tolu-portfolio\\\\.env.local.example\":*)",
       "Bash(npm install:*)",
-      "Bash(npm list:*)"
+      "Bash(npm list:*)",
+      "Bash(grep -r export.*cookies node_modules/next/dist/headers.d.ts)"
     ]
   }
 }
