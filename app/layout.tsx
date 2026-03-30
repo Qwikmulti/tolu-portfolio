@@ -19,7 +19,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Practical BA with Tolu | Business Analyst Educator & Community",
+  title: "PracticalBA Community | Business Analyst Educator & Community",
   description:
     "Tolulope is a Senior BA with 6+ years helping aspiring Business Analysts build skills, access resources, and grow their careers.",
   openGraph: {
