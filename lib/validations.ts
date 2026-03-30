@@ -11,6 +11,8 @@ export const subscribeSchema = z.object({
 });
 
 export const joinCommunitySchema = z.object({
+firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   currentRole: z.string().min(1, "Please select your current role"),
   challenge: z.string().min(10, "Please describe your BA challenge (at least 10 characters)"),
