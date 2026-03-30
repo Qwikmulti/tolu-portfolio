@@ -6,20 +6,26 @@ const SERVICES = [
   {
     icon: GraduationCap,
     title: "BA Training",
-    description: "Structured, practical training programmes that take you from beginner to confident Business Analyst — with real-world scenarios.",
-    tag: "Learn Skills",
+    description:
+      "Learn how Business Analysis works in real projects — not just theory. Build the skills, confidence, and understanding needed to transition into a BA role.",
+    tag: "Join Free Webinar",
+    link: "https://payhip.com/b/REf5s",
   },
   {
     icon: BookOpen,
-    title: "Toolkits & Resources",
-    description: "Downloadable guides, templates, and frameworks used by working BAs. Everything you need to hit the ground running.",
-    tag: "Get Resources",
+    title: "Downloadable guides, templates...",
+    description:
+      "Access real BA templates, examples, and frameworks used in the industry — so you can understand how the role works in practice.",
+    tag: "Get Free Toolkit",
+    link: "https://payhip.com/b/Y3J97",
   },
   {
     icon: Users,
-    title: "Community",
-    description: "A vibrant space to learn, grow, and connect with fellow BAs. Share experiences, ask questions, and level up together.",
+    title: "“A vibrant space to learn...”",
+    description:
+      "Get support, guidance, and clarity from others on the same journey — and learn directly from real-world Business Analysis experience",
     tag: "Join Community",
+    link: "https://www.skool.com/practical-ba-community-9272",
   },
 ];
 
@@ -35,9 +41,12 @@ export function WhatIDoSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">What I Do</span>
+          <span className="text-electric text-sm font-semibold tracking-[0.2em] ">
+            Choose your starting point — whether you want to learn the basics,
+            access practical tools, or get full support in your BA journey.
+          </span>
           <h2 className="font-cormorant text-5xl sm:text-6xl font-bold text-navy mt-3">
-            How I Help You Succeed
+            How You Can Become a Business Analyst
           </h2>
         </motion.div>
 
@@ -48,7 +57,11 @@ export function WhatIDoSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                delay: i * 0.12,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className="group"
             >
@@ -61,7 +74,9 @@ export function WhatIDoSection() {
                     <service.icon className="w-7 h-7 text-electric" />
                   </div>
 
-                  <span className="text-xs font-semibold text-electric/60 tracking-widest uppercase mb-3 block">{service.tag}</span>
+                  <span className="text-xs font-semibold text-electric/60 tracking-widest uppercase mb-3 block">
+                    {service.tag}
+                  </span>
                   <h3 className="font-cormorant text-2xl font-bold text-navy mb-4">
                     {service.title}
                   </h3>
@@ -70,10 +85,27 @@ export function WhatIDoSection() {
                   </p>
 
                   <div className="mt-6 pt-6 border-t border-charcoal/5">
-                    <span className="text-electric text-sm font-medium group-hover:translate-x-2 inline-flex items-center gap-2 transition-transform duration-300">
-                      Learn more
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                    </span>
+                    <a
+                      href={service.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-electric text-sm font-medium group-hover:translate-x-2 inline-flex items-center gap-2 transition-transform duration-300"
+                    >
+                      Learn more 
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </a>
                   </div>
                 </div>
               </div>

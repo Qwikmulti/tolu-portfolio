@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 const TOOLKITS = [
   {
     title: "Business Analysis Requirements Toolkit",
-    description: "A comprehensive guide covering requirements gathering, stakeholder analysis, BRD writing, and more. Used by 500+ BAs worldwide.",
+    description:
+      "Learn how to gather, document, and structure requirements like a real Business Analyst. Includes practical examples of BRDs, stakeholder analysis, and real projectscenarios.",
     gradient: "from-electric",
     secondary: "to-blue-600",
     accent: "#2563EB",
@@ -13,7 +14,8 @@ const TOOLKITS = [
   },
   {
     title: "Practical Requirements Toolkit",
-    description: "Templates, checklists, and real examples you can adapt immediately in your BA work. The ultimate practical companion.",
+    description:
+      "Step-by-step templates, checklists, and real-world examples you can use immediately — so you’re not just learning, but actually doing Business Analysis work.",
     gradient: "from-gold",
     secondary: "to-amber-500",
     accent: "#F59E0B",
@@ -25,10 +27,13 @@ export function ToolkitsSection() {
   return (
     <section className="py-28 bg-navy relative overflow-hidden">
       {/* Background texture */}
-      <div className="absolute inset-0 opacity-5" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-        backgroundSize: "40px 40px"
-      }} />
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+          backgroundSize: "40px 40px",
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section header */}
@@ -39,12 +44,16 @@ export function ToolkitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-gold text-sm font-semibold tracking-[0.2em] uppercase">Published Works</span>
+          <span className="text-gold text-sm font-semibold tracking-[0.2em] uppercase">
+            Published Works
+          </span>
           <h2 className="font-cormorant text-5xl sm:text-6xl font-bold text-white mt-3">
-            Learn From My Toolkits
+            Master Business Analysis with Real-World Toolkits
           </h2>
           <p className="text-white/50 mt-4 max-w-xl mx-auto">
-            Real-world frameworks, templates, and guides built from years of BA experience.
+            Practical templates, real examples, and proven frameworks to help
+            you understand how Business Analysis actually works — and apply it
+            with confidence.
           </p>
         </motion.div>
 
@@ -55,22 +64,33 @@ export function ToolkitsSection() {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                delay: i * 0.15,
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className="group"
             >
               <div className="bg-charcoal rounded-3xl overflow-hidden border border-white/5 relative">
                 {/* Gradient cover */}
-                <div className={`h-56 bg-gradient-to-br ${tk.gradient} ${tk.secondary} relative overflow-hidden`}>
+                <div
+                  className={`h-56 bg-gradient-to-br ${tk.gradient} ${tk.secondary} relative overflow-hidden`}
+                >
                   {/* Abstract pattern */}
-                  <div className="absolute inset-0 opacity-20" style={{
-                    backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                    backgroundSize: "24px 24px"
-                  }} />
+                  <div
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                      backgroundSize: "24px 24px",
+                    }}
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent" />
 
                   {/* Large watermark text */}
-                  <div className="absolute bottom-4 left-6 font-cormorant text-white/15 text-8xl font-bold">BA</div>
+                  <div className="absolute bottom-4 left-6 font-cormorant text-white/15 text-8xl font-bold">
+                    BA
+                  </div>
 
                   {/* Tag */}
                   <span className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full">
@@ -89,12 +109,17 @@ export function ToolkitsSection() {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-white/30 text-xs">Price</span>
-                      <p className="text-white font-semibold">{tk.tag === "BESTSELLER" ? "Coming Soon" : "Coming Soon"}</p>
+                      <p className="text-white font-semibold">
+                        {tk.tag === "BESTSELLER"
+                          ? "Available inside my training & community"
+                          : "Available inside my training & community"}
+                      </p>
                     </div>
-                    <button className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-medium transition-all duration-300`}
+                    <button
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-medium transition-all duration-300`}
                       style={{ backgroundColor: tk.accent }}
                     >
-                      Get Notified
+                      Get Free Access
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>

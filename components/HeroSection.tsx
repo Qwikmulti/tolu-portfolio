@@ -8,9 +8,10 @@ interface HeroSectionProps {
   onOpenDownloadModal: () => void;
 }
 
-const WORDS = ["Your", "BA", "Career", "Starts", "Here."];
+const WORDS = ["Become", "a", "Analyst", "Without", "Experience."];
 
-const profileBlurDataURL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAQUAAAAAAAAAAAAAAQIDBAAFESEGEhMxQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwC3xPj1ZcLTNlT7hIZlNyVNIaacShKEJACQQQe5J9YxgBjOUZfk7bU1X//2Q==";
+const profileBlurDataURL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAQUAAAAAAAAAAAAAAQIDBAAFESEGEhMxQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwC3xPj1ZcLTNlT7hIZlNyVNIaacShKEJACQQQe5J9YxgBjOUZfk7bU1X//2Q==";
 
 export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
   return (
@@ -33,9 +34,12 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
         {/* Noise texture overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }} />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
@@ -60,7 +64,9 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                 initial="hidden"
                 animate="visible"
                 variants={{
-                  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.4 } },
+                  visible: {
+                    transition: { staggerChildren: 0.1, delayChildren: 0.4 },
+                  },
                 }}
               >
                 {WORDS.map((word) => (
@@ -69,7 +75,12 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                     className="inline-block mr-6"
                     variants={{
                       hidden: { opacity: 0, y: 60, rotate: -3 },
-                      visible: { opacity: 1, y: 0, rotate: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        rotate: 0,
+                        transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+                      },
                     }}
                   >
                     {word}
@@ -84,7 +95,9 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.7 }}
             >
-              I help aspiring Business Analysts build real skills, land their first role, and grow with confidence.
+              Learn practical Business Analysis skills, gain real confidence,
+              and position yourself to land your first BA role — without
+              guesswork.
             </motion.p>
 
             <motion.div
@@ -98,7 +111,7 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                 onClick={onOpenDownloadModal}
                 data-track="download_guide_click"
               >
-                Get Free BA Guide
+                Join Free Webinar
               </Button>
               <a
                 href={SOCIAL_LINKS.youtube}
@@ -108,9 +121,14 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                 data-track="youtube_visit"
               >
                 <span className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/50 transition-colors">
-                  <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  <svg
+                    className="w-4 h-4 fill-current ml-0.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
                 </span>
-                <span className="text-sm font-medium">Watch on YouTube</span>
+                <span className="text-sm font-medium">Get Free Requirements Toolkit for New Business Analyst</span>
               </a>
             </motion.div>
 
@@ -165,7 +183,9 @@ export function HeroSection({ onOpenDownloadModal }: HeroSectionProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8, duration: 0.5 }}
               >
-                <p className="text-gold text-2xl font-bold font-cormorant">1,000+</p>
+                <p className="text-gold text-2xl font-bold font-cormorant">
+                  1,000+
+                </p>
                 <p className="text-white/50 text-xs">Community Members</p>
               </motion.div>
             </div>

@@ -2,13 +2,15 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+
 // import { CareerTimeline } from "./CareerTimeline";
 
-// const VALUES = [
-//   { title: "Clarity", desc: "Complex BA concepts explained simply." },
-//   { title: "Practicality", desc: "Real-world skills, not just theory." },
-//   { title: "Community", desc: "Learn and grow together." },
-// ];
+const VALUES = [
+  { title: "6+ Years Experience" },
+  { title: "Cross-sector expertise (Finance, Government, etc.)" },
+  { title: "Practical, real-world BA training" },
+];
 
 // const FUN_FACTS = [
 //   { emoji: "🎹", label: "Piano" },
@@ -18,7 +20,8 @@ import Image from "next/image";
 //   { emoji: "🎓", label: "Educator" },
 // ];
 
-const profileBlurDataURL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAQUAAAAAAAAAAAAAAQIDBAAFESEGEhMxQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwC3xPj1ZcLTNlT7hIZlNyVNIaacShKEJACQQQe5J9YxgBjOUZfk7bU1X//2Q==";
+const profileBlurDataURL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAQUAAAAAAAAAAAAAAQIDBAAFESEGEhMxQVFh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oADAMBAAIRAxEAPwC3xPj1ZcLTNlT7hIZlNyVNIaacShKEJACQQQe5J9YxgBjOUZfk7bU1X//2Q==";
 
 export function AboutSection() {
   return (
@@ -71,21 +74,43 @@ export function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">About Me</span>
+            <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">
+              About Me
+            </span>
             <h2 className="font-cormorant text-5xl sm:text-6xl font-bold text-navy mt-3 mb-8">
-              About Tolulope (Tolu)
+              From Confusion to Clarity: Meet Your BA Guide
             </h2>
 
             <div className="space-y-5 text-charcoal/70 leading-relaxed">
               <p>
-                I'm a Senior Business Analyst with over <strong className="text-navy">6 years of experience</strong> across Finance, Insurance, Pensions, and Government sectors. I've worked on large-scale transformation programmes, led stakeholder workshops, and helped organisations make sense of complex requirements.
+                I’m a Senior Business Analyst with over{" "}
+                <strong className="text-navy">6 years of experience</strong>
+                across Finance, Insurance, Pensions, and Government — and I help
+                aspiring Business Analysts understand how the role actually
+                works in real life, not just theory.
               </p>
               <p>
-                But my passion goes beyond the day job. I founded the <strong className="text-navy">Practical BA Community</strong> because I know what it feels like to break into this field without a clear roadmap.
+                I created the Practical BA Community because I know how
+                confusing it can feel trying to break into Business Analysis
+                without a clear roadmap. Most people are learning theory, but
+                still don’t feel confident enough to apply — and that’s exactly
+                what I aim to fix.
               </p>
               <p>
-                When I'm not doing BA work, you&apos;ll find me playing <strong className="text-navy">piano and drums</strong>, writing, or filming content for my YouTube channel.
+                Outside of BA work, I enjoy playing the piano and drums,
+                creating content, and sharing practical insights to help others
+                grow in their careers
               </p>
+              <motion.div
+                className="flex flex-wrap items-center gap-5"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+              >
+                <Button className="bg-gold hover:bg-gold/90 text-navy font-semibold text-base rounded-full px-8 h-12 shadow-xl shadow-gold/25">
+                  Start Your BA Journey
+                </Button>
+              </motion.div>
             </div>
 
             {/* Fun facts */}
@@ -102,19 +127,18 @@ export function AboutSection() {
             </div> */}
 
             {/* Value cards */}
-            {/* <div className="grid grid-cols-3 gap-4 mt-10">
+            <div className="grid grid-cols-3 gap-4 mt-10">
               {VALUES.map((v, i) => (
                 <div key={v.title} className="bg-gradient-to-br from-navy/5 to-transparent rounded-xl p-4 border border-charcoal/5">
                   <h4 className="font-cormorant text-lg font-bold text-navy">{v.title}</h4>
-                  <p className="text-xs text-charcoal/50 mt-1">{v.desc}</p>
                 </div>
               ))}
-            </div> */}
+            </div>
 
             {/* Timeline */}
             {/* <div className="mt-12"> */}
-              {/* <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Career Journey</h3> */}
-              {/* <CareerTimeline /> */}
+            {/* <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Career Journey</h3> */}
+            {/* <CareerTimeline /> */}
             {/* </div> */}
           </motion.div>
         </div>

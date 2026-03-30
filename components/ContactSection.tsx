@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -9,16 +10,28 @@ import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { SOCIAL_LINKS, BRAND } from "@/lib/constants";
 
 const CONTACT_INFO = [
-  { icon: Mail, label: "Email", value: BRAND.email },
-  { icon: Phone, label: "Phone", value: BRAND.phone },
-  { icon: MapPin, label: "Location", value: BRAND.location },
+  {
+    icon: Mail,
+    label: "For general enquiries and support",
+    value: BRAND.email,
+  },
+  {
+    icon: Phone,
+    label: "For direct enquiries (WhatsApp available)",
+    value: BRAND.phone,
+  },
+  {
+    icon: MapPin,
+    label: "Serving clients globally (based in London)",
+    value: BRAND.location,
+  },
 ];
 
 const SUBJECTS = [
-  "Collaboration",
-  "Mentorship Request",
-  "Community Question",
-  "Toolkits Enquiry",
+  "Beginner (no experience)",
+  "Trying to transition",
+  "Already in a BA role",
+  "Just exploring",
   "Other",
 ];
 
@@ -26,13 +39,20 @@ export function ContactSection() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactData>({
     resolver: zodResolver(contactSchema),
   });
 
   const onSubmit = async (data: ContactData) => {
     // Honeypot check - bot detected if field is filled
-    const honeypotField = document.querySelector("input[name='website']") as HTMLInputElement;
+    const honeypotField = document.querySelector(
+      "input[name='website']",
+    ) as HTMLInputElement;
     if (honeypotField?.value) {
       // Bot detected - fake success
       setSubmitted(true);
@@ -58,7 +78,10 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-28 bg-soft-white relative overflow-hidden">
+    <section
+      id="contact"
+      className="py-28 bg-soft-white relative overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy via-electric to-gold" />
       <div className="absolute -top-20 -right-20 w-80 h-80 bg-electric/5 rounded-full blur-3xl" />
@@ -72,12 +95,16 @@ export function ContactSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">Get in Touch</span>
+          <span className="text-electric text-sm font-semibold tracking-[0.2em] uppercase">
+            Get in Touch
+          </span>
           <h2 className="font-cormorant text-5xl sm:text-6xl font-bold text-navy mt-3">
-            Let&apos;s Connect
+            Start Your Journey Into Business Analysis
           </h2>
           <p className="text-charcoal/50 mt-4 max-w-xl mx-auto">
-            Have a question, collaboration idea, or just want to say hello? I&apos;d love to hear from you.
+            Whether you're trying to transition into Business Analysis, need
+            guidance, or want to learn more about my training and resources —
+            I’m here to help.
           </p>
         </motion.div>
 
@@ -95,7 +122,9 @@ export function ContactSection() {
                 <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <info.icon className="w-5 h-5 text-electric" />
                 </div>
-                <p className="text-xs text-charcoal/40 uppercase tracking-wider mb-1">{info.label}</p>
+                <p className="text-xs text-charcoal/40 uppercase tracking-wider mb-1">
+                  {info.label}
+                </p>
                 <p className="text-navy font-medium text-sm">{info.value}</p>
               </div>
             </motion.div>
@@ -123,12 +152,22 @@ export function ContactSection() {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
-                <h3 className="font-cormorant text-2xl font-bold text-navy mb-2">Message Sent!</h3>
-                <p className="text-charcoal/50 text-sm">I&apos;ll get back to you within 48 hours.</p>
+                <h3 className="font-cormorant text-2xl font-bold text-navy mb-2">
+                  Message Sent!
+                </h3>
+                <p className="text-charcoal/50 text-sm">
+                  I&apos;ll get back to you within 48 hours.
+                </p>
               </motion.div>
             ) : (
               <>
-                <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">Send a Message</h3>
+                <h3 className="font-cormorant text-2xl font-bold text-navy mb-6">
+                  Tell Me About Your BA Goals
+                </h3>
+                <p className="text-charcoal/50 text-sm my-6">
+                  Share where you are in your journey and what you need help
+                  with — I’ll point you in the right direction.
+                </p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                   {/* Honeypot - hidden from users, bots will fill it */}
                   <input
@@ -141,45 +180,76 @@ export function ContactSection() {
                   />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">Full Name</label>
+                      <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">
+                        Full Name
+                      </label>
                       <input
                         {...register("fullName")}
                         placeholder="Your name"
                         className="w-full px-4 py-3 rounded-xl border border-charcoal/10 focus:border-electric focus:ring-2 focus:ring-electric/10 outline-none transition-all text-charcoal text-sm"
                       />
-                      {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>}
+                      {errors.fullName && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.fullName.message}
+                        </p>
+                      )}
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">Email</label>
+                      <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">
+                        Email
+                      </label>
                       <input
                         {...register("email")}
                         type="email"
                         placeholder="you@email.com"
                         className="w-full px-4 py-3 rounded-xl border border-charcoal/10 focus:border-electric focus:ring-2 focus:ring-electric/10 outline-none transition-all text-charcoal text-sm"
                       />
-                      {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                      {errors.email && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.email.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">Subject</label>
+                    <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">
+                      What best describes you?
+                    </label>
                     <select
                       {...register("subject")}
                       className="w-full px-4 py-3 rounded-xl border border-charcoal/10 focus:border-electric focus:ring-2 focus:ring-electric/10 outline-none transition-all text-charcoal text-sm bg-white"
                     >
-                      <option value="">Select a subject...</option>
-                      {SUBJECTS.map((s) => <option key={s} value={s.toLowerCase().replace(" ", "-")}>{s}</option>)}
+                      <option value="">What best describes you?</option>
+                      {SUBJECTS.map((s) => (
+                        <option
+                          key={s}
+                          value={s.toLowerCase().replace(" ", "-")}
+                        >
+                          {s}
+                        </option>
+                      ))}
                     </select>
-                    {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                    {errors.subject && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.subject.message}
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">Message</label>
+                    <label className="text-xs font-semibold text-charcoal/60 uppercase tracking-wide mb-1.5 block">
+                      Message
+                    </label>
                     <textarea
                       {...register("message")}
                       rows={5}
                       placeholder="Your message..."
                       className="w-full px-4 py-3 rounded-xl border border-charcoal/10 focus:border-electric focus:ring-2 focus:ring-electric/10 outline-none transition-all text-charcoal text-sm resize-none"
                     />
-                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+                    {errors.message && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.message.message}
+                      </p>
+                    )}
                   </div>
                   <Button
                     type="submit"

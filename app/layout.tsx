@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { PageTransition } from "./components/PageTransition";
 import { FontLoader } from "@/components/FontLoader";
+import { Analytics } from "@vercel/analytics/next"
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -85,6 +86,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Analytics />
         <FontLoader>
           <PageTransition>{children}</PageTransition>
         </FontLoader>
