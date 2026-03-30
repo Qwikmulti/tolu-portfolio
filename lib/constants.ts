@@ -15,7 +15,7 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const BRAND = {
-  name: "Practical BA with Tolu",
+  name: "PracticalBA Community",
   tagline: "Simplifying Business Analysis. Empowering Careers.",
   email: "Tolulope@practicalbacommunity.com",
   phone: "+44 7878 514166",
