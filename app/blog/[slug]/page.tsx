@@ -2,10 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import React from "react";
-
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = React.use(params);
+  const { slug } = await params;
   let article: any = null;
   try {
     const supabase = await createSupabaseServerClient();
