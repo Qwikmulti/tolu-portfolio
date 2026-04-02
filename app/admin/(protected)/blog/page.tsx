@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { Plus, Edit, Trash2, FileText, Loader2, Clock } from "lucide-react";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { motion } from "framer-motion";
@@ -11,28 +10,36 @@ import { motion } from "framer-motion";
 export default function BlogAdminPage() {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createSupabaseBrowserClient();
 
   useEffect(() => {
     let mounted = true;
     async function load() {
-      const { data } = await supabase
-        .from("blog_articles")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (mounted) {
-        setArticles(data ?? []);
-        setLoading(false);
+      try {
+        const res = await fetch("/api/admin/blog");
+        if (!res.ok) throw new Error("Unauthorized");
+        const { data } = await res.json();
+        if (mounted) {
+          setArticles(data ?? []);
+        }
+      } catch {
+        // Auth error or network failure — redirect handled by layout
+      } finally {
+        if (mounted) setLoading(false);
       }
     }
     load();
     return () => { mounted = false; };
-  }, [supabase]);
+  }, []);
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this article? This cannot be undone.")) return;
-    await supabase.from("blog_articles").delete().eq("id", id);
-    const { data } = await supabase.from("blog_articles").select("*").order("created_at", { ascending: false });
+    const res = await fetch(`/api/admin/blog/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const body = await res.json();
+      alert(body.error || "Failed to delete article");
+      return;
+    }
+    const { data } = await fetch("/api/admin/blog").then(r => r.json());
     setArticles(data ?? []);
   }
 

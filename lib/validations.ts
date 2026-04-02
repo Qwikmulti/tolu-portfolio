@@ -30,8 +30,19 @@ export const contactSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
+export const blogSchema = z.object({
+  slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Only lowercase letters, numbers, and hyphens"),
+  title: z.string().min(1, "Title is required"),
+  excerpt: z.string().optional(),
+  content: z.string().min(1, "Content is required"),
+  date: z.string().min(1, "Date is required"),
+  read_time: z.string().min(1, "Read time is required"),
+  category: z.string().min(1, "Category is required"),
+});
+
 export type DownloadGuideData = z.infer<typeof downloadGuideSchema>;
 export type SubscribeData = z.infer<typeof subscribeSchema>;
 export type JoinCommunityData = z.infer<typeof joinCommunitySchema>;
 export type JoinWebinarData = z.infer<typeof joinWebinarSchema>;
 export type ContactData = z.infer<typeof contactSchema>;
+export type BlogData = z.infer<typeof blogSchema>;

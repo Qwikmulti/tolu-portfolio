@@ -27,32 +27,33 @@ export async function POST(request: Request) {
     const firstName = nameParts[0] || name;
     const lastName = nameParts.slice(1).join(" ") || "";
 
-    try {
-      const supabase = await createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
 
-      // Check if email already exists
-      const { data: existing } = await supabase
-        .from("community_members")
-        .select("id, email")
-        .eq("email", email)
-        .maybeSingle();
+    // Check if already registered
+    const { data: existing } = await supabase
+      .from("community_members")
+      .select("id, email")
+      .eq("email", email)
+      .maybeSingle();
 
-      if (existing) {
-        return NextResponse.json({
-          success: true,
-          message: "You're already registered for this webinar!",
-        });
-      }
+    if (existing) {
+      return NextResponse.json({
+        success: true,
+        message: "You're already registered for this webinar!",
+      });
+    }
 
-      await supabase.from("community_members").insert([{
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        role: "Webinar Attendee",
-        is_approved: false,
-      }]);
-    } catch (dbError) {
-      console.error("Supabase insert error:", dbError);
+    // Save to community_members with webinar-specific role — visible in /admin/community
+    const { error: dbError } = await supabase.from("community_members").insert([{
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      role: "Webinar Attendee",
+      is_approved: false,
+    }]);
+
+    if (dbError) {
+      console.error("Join webinar DB insert error:", dbError);
       return NextResponse.json(
         { error: "Something went wrong. Please try again." },
         { status: 500 }

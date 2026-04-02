@@ -35,8 +35,10 @@ export async function POST(request: Request) {
 
     const downloadUrl = guide ? `/api/guide/${guide.id}` : null;
 
-    // Send download email
-    await sendDownloadEmail({ name, email, downloadUrl });
+    // Send download email — fire-and-forget, never fails the response
+    sendDownloadEmail({ name, email, downloadUrl }).catch((e) =>
+      console.error("[download-guide] Email send failed:", e)
+    );
 
     return NextResponse.json({ success: true, downloadUrl });
   } catch (error) {

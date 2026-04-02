@@ -1,14 +1,17 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// Lazily create transporter so module-load failures don't crash the app
+function getTransporter() {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+}
 
 export async function sendEmail({
   to,
@@ -21,12 +24,19 @@ export async function sendEmail({
   html: string;
   from?: string;
 }) {
-  return transporter.sendMail({
-    from: from || process.env.EMAIL_FROM || "noreply@practicalbacommunity.com",
-    to,
-    subject,
-    html,
-  });
+  try {
+    const transporter = getTransporter();
+    return await transporter.sendMail({
+      from: from || process.env.EMAIL_FROM || "noreply@practicalbacommunity.com",
+      to,
+      subject,
+      html,
+    });
+  } catch (err) {
+    // Log but never throw — email delivery must never break the API response
+    console.error("[email] Send failed:", err);
+    return null;
+  }
 }
 
 export async function sendContactEmail(data: {

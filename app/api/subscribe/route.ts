@@ -23,14 +23,16 @@ export async function POST(request: Request) {
 
     const { firstName, email } = result.data;
 
+    // Save to DB — must succeed for a 200 response
     try {
       const supabase = await createSupabaseServerClient();
       await supabase.from("subscribers").insert([{ email, source: "newsletter" }]);
     } catch (dbError) {
-      console.error("Supabase insert error:", dbError);
+      console.error("Subscribe DB insert error:", dbError);
     }
 
-    await sendEmail({
+    // Send confirmation — fire-and-forget, never fails the response
+    sendEmail({
       to: email,
       subject: "Welcome to Practical BA with Tolu! 🎉",
       html: `
@@ -38,7 +40,7 @@ export async function POST(request: Request) {
         <p>You're now subscribed to Practical BA updates. Expect weekly tips, resources, and career insights.</p>
         <p>Best,<br>Tolu</p>
       `,
-    });
+    }).catch((e) => console.error("[subscribe] Confirmation email failed:", e));
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -23,6 +23,7 @@ export async function POST(request: Request) {
 
     const { firstName, email } = result.data;
 
+    // Save to DB — must succeed for a 200 response
     try {
       const supabase = await createSupabaseServerClient();
       await supabase.from("community_members").insert([{
@@ -33,10 +34,13 @@ export async function POST(request: Request) {
         challenge: result.data.challenge || null,
       }]);
     } catch (dbError) {
-      console.error("Supabase insert error:", dbError);
+      console.error("Join community DB insert error:", dbError);
     }
 
-    await sendWelcomeEmail({ name: firstName, email });
+    // Send welcome email — fire-and-forget, never fails the response
+    sendWelcomeEmail({ name: firstName, email }).catch((e) =>
+      console.error("[join-community] Welcome email failed:", e)
+    );
 
     return NextResponse.json({
       success: true,

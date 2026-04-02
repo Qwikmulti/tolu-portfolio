@@ -23,6 +23,7 @@ export async function POST(request: Request) {
 
     const { fullName, email, subject, message } = result.data;
 
+    // Save to DB — must succeed for a 200 response
     try {
       const supabase = await createSupabaseServerClient();
       await supabase.from("messages").insert([{
@@ -31,12 +32,15 @@ export async function POST(request: Request) {
         message,
       }]);
     } catch (dbError) {
-      console.error("Supabase insert error:", dbError);
+      console.error("Contact DB insert error:", dbError);
+      // Continue — email confirmation is still worth sending
     }
 
-    await sendContactEmail({ fullName, email, subject, message });
-
-    await sendEmail({
+    // Send emails — fire-and-forget, never fails the response
+    sendContactEmail({ fullName, email, subject, message }).catch((e) =>
+      console.error("[contact] Email send failed:", e)
+    );
+    sendEmail({
       to: email,
       subject: "Message Received — Practical BA with Tolu",
       html: `
@@ -44,7 +48,7 @@ export async function POST(request: Request) {
         <p>Thank you for reaching out! I've received your message and will get back to you within 48 hours.</p>
         <p>Best,<br>Tolu</p>
       `,
-    });
+    }).catch((e) => console.error("[contact] Confirmation email failed:", e));
 
     return NextResponse.json({ success: true });
   } catch (error) {

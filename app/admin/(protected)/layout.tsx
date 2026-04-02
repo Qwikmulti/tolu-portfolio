@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/admin/Sidebar";
+import { Providers } from "@/components/admin/Providers";
 
 export default async function AdminLayout({
   children,
@@ -21,9 +22,11 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="md:pl-60 min-h-screen bg-soft-white">
-      <Sidebar userEmail={user.email ?? ""} />
-      <main className="p-4 md:p-8">{children}</main>
-    </div>
+    <Providers>
+      <div className="md:pl-60 min-h-screen bg-soft-white">
+        <Sidebar userEmail={user.email ?? ""} />
+        <main className="p-4 md:p-8">{children}</main>
+      </div>
+    </Providers>
   );
 }

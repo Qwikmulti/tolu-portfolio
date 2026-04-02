@@ -2,58 +2,54 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import Link from "next/link";
-import { ArrowLeft, Eye, Send } from "lucide-react";
+import { ArrowLeft, Send, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
-
-const blogSchema = z.object({
-  slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Only lowercase letters, numbers, and hyphens"),
-  title: z.string().min(1, "Title is required"),
-  excerpt: z.string().optional(),
-  content: z.string().min(1, "Content is required"),
-  date: z.string().min(1, "Date is required"),
-  read_time: z.string().min(1, "Read time is required"),
-  category: z.string().min(1, "Category is required"),
-});
-
-type BlogFormData = z.infer<typeof blogSchema>;
+import { useState } from "react";
+import { blogSchema, type BlogData } from "@/lib/validations";
 
 interface BlogFormProps {
-  initialData?: Partial<BlogFormData>;
+  initialData?: Partial<BlogData>;
   articleId?: string;
 }
 
 export function BlogForm({ initialData, articleId }: BlogFormProps) {
   const router = useRouter();
-  const supabase = createSupabaseBrowserClient();
   const isEditing = !!articleId;
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<BlogFormData>({
+  } = useForm<BlogData>({
     resolver: zodResolver(blogSchema),
     defaultValues: initialData,
   });
 
-  const onSubmit = async (data: BlogFormData) => {
-    const payload = {
-      ...data,
-      updated_at: new Date().toISOString(),
-    };
+  const onSubmit = async (data: BlogData) => {
+    setError(null);
+    try {
+      const url = isEditing ? `/api/admin/blog/${articleId}` : "/api/admin/blog";
+      const method = isEditing ? "PUT" : "POST";
 
-    if (isEditing) {
-      await supabase.from("blog_articles").update(payload).eq("id", articleId);
-    } else {
-      await supabase.from("blog_articles").insert([{ ...payload, created_at: new Date().toISOString() }]);
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.error || "Failed to save article");
+      }
+
+      router.push("/admin/blog");
+      router.refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
     }
-
-    router.push("/admin/blog");
-    router.refresh();
   };
 
   return (
@@ -64,7 +60,17 @@ export function BlogForm({ initialData, articleId }: BlogFormProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Title */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-rose-50 border border-rose-200 text-rose-600 text-sm px-5 py-3.5 rounded-xl"
+        >
+          {error}
+        </motion.div>
+      )}
+
+      {/* Title + Slug */}
       <div className="bg-white rounded-2xl p-6 border border-stone-100 shadow-sm space-y-5">
         <h2 className="font-display text-lg font-bold text-navy">Article Details</h2>
         <div>
@@ -154,9 +160,13 @@ export function BlogForm({ initialData, articleId }: BlogFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors disabled:opacity-50 shadow-sm"
+          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl transition-all disabled:opacity-50 shadow-sm"
         >
-          <Send className="w-4 h-4" />
+          {isSubmitting ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Send className="w-4 h-4" />
+          )}
           {isSubmitting ? "Saving..." : isEditing ? "Update Article" : "Publish Article"}
         </button>
         <Link
