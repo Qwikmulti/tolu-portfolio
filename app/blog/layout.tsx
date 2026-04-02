@@ -1,21 +1,29 @@
-import type { Metadata } from "next";
+"use client";
+import { useState } from "react";
+import { BlogNavbar } from "@/components/BlogNavbar";
+import { JoinWebinar } from "@/components/JoinWebinar";
+import { DownloadModal } from "@/components/DownloadModal";
 import { Footer } from "@/components/Footer";
 
 
-export const metadata: Metadata = {
-  title: "Blog | Tolu Olatunji - Business Analyst",
-  description: "Practical tips, frameworks, and real-world advice for aspiring and established Business Analysts.",
-};
-
 export default function BlogLayout({
-
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>
-  {children}
-  <Footer />
+  const [webinarModalOpen, setWebinarModalOpen] = useState(false);
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
-  </>;
+  return (
+    <>
+      <BlogNavbar
+        onOpenDownloadModal={() => setDownloadModalOpen(true)}
+        onOpenWebinarModal={() => setWebinarModalOpen(true)}
+      />
+      {children}
+      <Footer />
+      <JoinWebinar open={webinarModalOpen} onOpenChange={setWebinarModalOpen} />
+      <DownloadModal open={downloadModalOpen} onOpenChange={setDownloadModalOpen} />
+    </>
+  );
 }
