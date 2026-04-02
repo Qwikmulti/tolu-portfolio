@@ -3,6 +3,9 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Users, Mail, UserPlus, FileText, ArrowRight } from "lucide-react";
+import { AdminHeader } from "@/components/admin/AdminHeader";
+import { StatCard } from "@/components/admin/StatCard";
+import { motion } from "framer-motion";
 
 async function getStats(supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>) {
   try {
@@ -29,127 +32,134 @@ async function getStats(supabase: Awaited<ReturnType<typeof createSupabaseServer
   } catch {
     return {
       totalSubscribers: 0, totalMessages: 0, totalCommunity: 0, totalBlog: 0,
-      recentMessages: [], recentCommunity: [],
+      recentMessages: [] as any[], recentCommunity: [] as any[],
     };
   }
 }
 
 export default async function DashboardPage() {
   let user: { email?: string } | null = null;
-  let stats: Awaited<ReturnType<typeof getStats>> = { totalSubscribers: 0, totalMessages: 0, totalCommunity: 0, totalBlog: 0, recentMessages: [] as any[], recentCommunity: [] as any[] };
+  const supabase = await createSupabaseServerClient();
+  const stats = await getStats(supabase);
 
   try {
     const supabase = await createSupabaseServerClient();
     const { data } = await supabase.auth.getUser();
     user = data.user;
-    if (user) {
-      stats = await getStats(supabase);
-    }
-  } catch (err) {
-    console.error("Dashboard error:", err);
+  } catch {
+    // continue
   }
 
   if (!user) redirect("/admin/login");
 
   const statCards = [
-    { label: "Subscribers", value: stats.totalSubscribers, icon: Users, href: "/admin/subscribers", color: "electric" },
-    { label: "Messages", value: stats.totalMessages, icon: Mail, href: "/admin/messages", color: "gold" },
-    { label: "Community", value: stats.totalCommunity, icon: UserPlus, href: "/admin/community", color: "green" },
-    { label: "Blog Articles", value: stats.totalBlog, icon: FileText, href: "/admin/blog", color: "purple" },
+    { label: "Subscribers", value: stats.totalSubscribers, icon: <Users className="w-5 h-5" />, href: "/admin/subscribers", accentColor: "electric" as const, delay: 0 },
+    { label: "Messages", value: stats.totalMessages, icon: <Mail className="w-5 h-5" />, href: "/admin/messages", accentColor: "gold" as const, delay: 0.08 },
+    { label: "Community", value: stats.totalCommunity, icon: <UserPlus className="w-5 h-5" />, href: "/admin/community", accentColor: "green" as const, delay: 0.16 },
+    { label: "Blog Articles", value: stats.totalBlog, icon: <FileText className="w-5 h-5" />, href: "/admin/blog", accentColor: "rose" as const, delay: 0.24 },
   ];
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-cormorant text-3xl font-bold text-navy">Dashboard</h1>
-        <p className="text-charcoal/50 mt-1">Welcome back — here&apos;s what&apos;s happening.</p>
-      </div>
+      <AdminHeader
+        title="Dashboard"
+        subtitle="Welcome back — here's what's happening with your community."
+      />
 
-      {/* Stat cards */}
+      {/* Stat grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {statCards.map(({ label, value, icon: Icon, href, color }) => (
-          <Link
-            key={label}
-            href={href}
-            className="bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow group"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-charcoal/50 text-sm">{label}</p>
-                <p className="font-cormorant text-3xl font-bold text-navy mt-1">{value}</p>
-              </div>
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                color === "electric" ? "bg-electric/10 text-electric" :
-                color === "gold" ? "bg-gold/10 text-gold" :
-                color === "green" ? "bg-green-500/10 text-green-500" :
-                "bg-purple-500/10 text-purple-500"
-              }`}>
-                <Icon className="w-5 h-5" />
-              </div>
-            </div>
-            <div className="mt-4 flex items-center gap-1 text-sm text-charcoal/40 group-hover:text-electric transition-colors">
-              View <ArrowRight className="w-3 h-3" />
-            </div>
-          </Link>
+        {statCards.map((card) => (
+          <StatCard key={card.label} {...card} />
         ))}
       </div>
 
+      {/* Activity feeds */}
       <div className="grid md:grid-cols-2 gap-6">
         {/* Recent messages */}
-        <div className="bg-white rounded-xl p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-cormorant text-xl font-bold text-navy">Recent Messages</h2>
-            <Link href="/admin/messages" className="text-sm text-electric hover:underline">View all</Link>
+        <div className="bg-white rounded-2xl p-6 border border-stone-100 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="font-display text-lg font-bold text-navy">Recent Messages</h2>
+            <Link href="/admin/messages" className="flex items-center gap-1 text-xs font-medium text-stone-400 hover:text-amber-500 transition-colors">
+              View all <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
           {stats.recentMessages.length === 0 ? (
-            <p className="text-charcoal/40 text-sm">No messages yet.</p>
+            <div className="py-10 text-center">
+              <div className="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center mx-auto mb-3">
+                <Mail className="w-5 h-5 text-stone-300" />
+              </div>
+              <p className="text-stone-400 text-sm">No messages yet.</p>
+            </div>
           ) : (
-            <div className="space-y-3">
-              {stats.recentMessages.map((msg: any) => (
-                <div key={msg.id} className="flex items-start gap-3 pb-3 border-b border-gray-50 last:border-0">
-                  <div className="w-8 h-8 rounded-full bg-navy/10 flex items-center justify-center text-xs font-semibold text-navy flex-shrink-0">
+            <div className="space-y-1">
+              {stats.recentMessages.map((msg: any, i: number) => (
+                <motion.div
+                  key={msg.id}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06, duration: 0.3 }}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-stone-50 transition-colors group"
+                >
+                  <div className="w-9 h-9 rounded-full bg-navy flex items-center justify-center text-white text-xs font-semibold shrink-0">
                     {msg.name[0]}
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-navy truncate">{msg.name}</p>
-                    <p className="text-xs text-charcoal/40 truncate">{msg.message}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-sm font-semibold text-navy truncate">{msg.name}</p>
+                      {!msg.is_read && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                      )}
+                    </div>
+                    <p className="text-xs text-stone-400 truncate mt-0.5">{msg.message}</p>
                   </div>
-                  {!msg.is_read && (
-                    <span className="w-2 h-2 rounded-full bg-gold flex-shrink-0 mt-1" />
-                  )}
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
         </div>
 
         {/* Recent community */}
-        <div className="bg-white rounded-xl p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-cormorant text-xl font-bold text-navy">Community Applications</h2>
-            <Link href="/admin/community" className="text-sm text-electric hover:underline">View all</Link>
+        <div className="bg-white rounded-2xl p-6 border border-stone-100 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="font-display text-lg font-bold text-navy">Community Applications</h2>
+            <Link href="/admin/community" className="flex items-center gap-1 text-xs font-medium text-stone-400 hover:text-amber-500 transition-colors">
+              View all <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
           {stats.recentCommunity.length === 0 ? (
-            <p className="text-charcoal/40 text-sm">No applications yet.</p>
+            <div className="py-10 text-center">
+              <div className="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center mx-auto mb-3">
+                <UserPlus className="w-5 h-5 text-stone-300" />
+              </div>
+              <p className="text-stone-400 text-sm">No applications yet.</p>
+            </div>
           ) : (
-            <div className="space-y-3">
-              {stats.recentCommunity.map((member: any) => (
-                <div key={member.id} className="flex items-center gap-3 pb-3 border-b border-gray-50 last:border-0">
-                  <div className="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center text-xs font-semibold text-gold flex-shrink-0">
-                    {member.first_name[0]}
+            <div className="space-y-1">
+              {stats.recentCommunity.map((member: any, i: number) => (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06, duration: 0.3 }}
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-stone-50 transition-colors group"
+                >
+                  <div className="w-9 h-9 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 text-xs font-semibold shrink-0">
+                    {member.first_name[0]}{member.last_name[0]}
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-navy">{member.first_name} {member.last_name}</p>
-                    <p className="text-xs text-charcoal/40">{member.email}</p>
+                  <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-navy truncate">{member.first_name} {member.last_name}</p>
+                      <p className="text-xs text-stone-400 truncate">{member.email}</p>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 font-medium ${
+                      member.is_approved
+                        ? "bg-emerald-50 text-emerald-600"
+                        : "bg-amber-50 text-amber-600"
+                    }`}>
+                      {member.is_approved ? "Approved" : "Pending"}
+                    </span>
                   </div>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    member.is_approved
-                      ? "bg-green-500/10 text-green-600"
-                      : "bg-yellow-500/10 text-yellow-600"
-                  }`}>
-                    {member.is_approved ? "Approved" : "Pending"}
-                  </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}

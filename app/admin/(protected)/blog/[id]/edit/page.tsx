@@ -4,8 +4,9 @@
 import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { BlogForm } from "@/components/admin/BlogForm";
-import { useParams, useRouter } from "next/navigation";
+import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function EditBlogPage() {
   const params = useParams();
@@ -26,12 +27,12 @@ export default function EditBlogPage() {
       setLoading(false);
     }
     fetch();
-  }, [id]);
+  }, [id, supabase]);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-charcoal/30" />
+      <div className="flex items-center justify-center py-24">
+        <Loader2 className="w-6 h-6 animate-spin text-stone-300" />
       </div>
     );
   }
@@ -42,11 +43,12 @@ export default function EditBlogPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="font-cormorant text-3xl font-bold text-navy">Edit Article</h1>
-        <p className="text-charcoal/50 text-sm mt-1">Update an existing blog article.</p>
-      </div>
+    <div className="space-y-8">
+      <AdminHeader
+        title="Edit Article"
+        subtitle={`Editing "${article.title}"`}
+        badge="Editing"
+      />
       <BlogForm
         initialData={{
           slug: article.slug,
@@ -61,4 +63,9 @@ export default function EditBlogPage() {
       />
     </div>
   );
+}
+
+function useParams() {
+  const { useParams } = require("next/navigation");
+  return useParams();
 }
