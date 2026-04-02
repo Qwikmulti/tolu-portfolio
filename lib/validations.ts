@@ -5,6 +5,11 @@ export const downloadGuideSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
+export const joinWebinarSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+});
+
 export const subscribeSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
@@ -28,4 +33,5 @@ export const contactSchema = z.object({
 export type DownloadGuideData = z.infer<typeof downloadGuideSchema>;
 export type SubscribeData = z.infer<typeof subscribeSchema>;
 export type JoinCommunityData = z.infer<typeof joinCommunitySchema>;
+export type JoinWebinarData = z.infer<typeof joinWebinarSchema>;
 export type ContactData = z.infer<typeof contactSchema>;

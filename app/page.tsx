@@ -18,14 +18,16 @@ import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { BackToTopButton } from "@/components/BackToTopButton";
-import { DownloadModal } from "@/components/DownloadModal";
+import { JoinWebinar } from "@/components/JoinWebinar";
 import { PWAProvider } from "@/app/components/PWAProvider";
 import { Analytics } from "@/components/Analytics";
 import { EventTracking } from "@/components/EventTracking";
 import { CustomCursor } from "./components/CustomCursor";
 import { MicroInteractions } from "./components/MicroInteractions";
+import { DownloadModal } from "@/components/DownloadModal";
 
 export default function Home() {
+  const [webinarModalOpen, setWebinarModalOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
   return (
@@ -35,9 +37,12 @@ export default function Home() {
       <PWAProvider />
       <Analytics />
       <EventTracking />
-      <Navbar onOpenDownloadModal={() => setDownloadModalOpen(true)} />
+      <Navbar
+        onOpenDownloadModal={() => setDownloadModalOpen(true)}
+        onOpenWebinarModal={() => setWebinarModalOpen(true)}
+      />
       <main>
-        <HeroSection onOpenDownloadModal={() => setDownloadModalOpen(true)} />
+        <HeroSection onOpenDownloadModal={() => setWebinarModalOpen(true)} />
         <MarqueeBanner />
         <StatsSection />
         <WhatIDoSection />
@@ -45,7 +50,7 @@ export default function Home() {
         <AboutSection />
         <ToolkitsSection />
         <ResourcesSection />
-        <YouTubeSection />
+        {/* <YouTubeSection /> */}
         <MailingListSection />
         <CommunitySection />
         <TestimonialsCarousel />
@@ -55,7 +60,11 @@ export default function Home() {
       <Footer />
       <WhatsAppButton />
       <BackToTopButton />
-      <DownloadModal open={downloadModalOpen} onOpenChange={setDownloadModalOpen} />
+      <JoinWebinar open={webinarModalOpen} onOpenChange={setWebinarModalOpen} />
+      <DownloadModal
+        open={downloadModalOpen}
+        onOpenChange={setDownloadModalOpen}
+      />
     </>
   );
 }

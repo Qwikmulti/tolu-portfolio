@@ -9,9 +9,10 @@ import { ThemeToggle } from "@/app/components/ThemeToggle";
 
 interface NavbarProps {
   onOpenDownloadModal: () => void;
+  onOpenWebinarModal: () => void;
 }
 
-export function Navbar({ onOpenDownloadModal }: NavbarProps) {
+export function Navbar({ onOpenDownloadModal, onOpenWebinarModal }: NavbarProps) {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -100,7 +101,7 @@ export function Navbar({ onOpenDownloadModal }: NavbarProps) {
                 <Button
                   variant="outline"
                   className="border-white/20 text-white hover:bg-white/10 hover:text-white text-sm rounded-full px-5"
-                  onClick={() => handleNavClick("#community")}
+                  onClick={onOpenWebinarModal}
                 >
                   Join Community
                 </Button>
