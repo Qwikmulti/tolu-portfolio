@@ -32,7 +32,6 @@ export default function Home() {
 
   return (
     <>
-      <CustomCursor />
       <MicroInteractions />
       <PWAProvider />
       <Analytics />
