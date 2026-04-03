@@ -1,6 +1,3 @@
--- Tolu Portfolio Admin Panel Schema
--- Run this in your Supabase SQL Editor: https://supabase.com/dashboard
--- Navigate to: SQL Editor > New Query > paste this schema > Run
 
 -- Subscribers (newsletter)
 create table if not exists subscribers (
@@ -59,16 +56,15 @@ create table if not exists guides (
   created_at timestamptz default now()
 );
 
--- Enable Row Level Security
-alter table subscribers enable row level security;
-alter table messages enable row level security;
-alter table community_members enable row level security;
+-- Disable Row Level Security for public tables
+alter table subscribers disable row level security;
+alter table messages disable row level security;
+alter table community_members disable row level security;
+
+-- Enable Row Level Security for admin tables
 alter table blog_articles enable row level security;
 alter table guides enable row level security;
 
 -- Admin policy: only authenticated users can manage data
-create policy "Admin full access" on subscribers for all using (auth.role() = 'authenticated');
-create policy "Admin full access" on messages for all using (auth.role() = 'authenticated');
-create policy "Admin full access" on community_members for all using (auth.role() = 'authenticated');
 create policy "Admin full access" on blog_articles for all using (auth.role() = 'authenticated');
 create policy "Admin full access" on guides for all using (auth.role() = 'authenticated');
